@@ -4,12 +4,31 @@ import Stepper from "@/components/common/navbar/Stepper";
 import { UserRoleEnum } from "@/constants/enum";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RegisterOrganizer from "@/components/auth/RegisterOrganizer";
 import CongratulationSvg from "@/components/svg/CongratulationSvg";
-
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { useRouter } from "next/navigation"
 const OrganizerRegister = () => {
-  const [steps, setStpes] = useState(2);
+  const [steps, setStpes] = useState(1);
+  const auth = useSelector((state: RootState) => state.auth!);
+  const router = useRouter();
+
+  const checkRegister = () => {
+    if (auth.role !== UserRoleEnum.ORGANIZER) return;
+    if (!auth.isUserLogin) return;
+    if (!auth.isRegisterOrganizer) {
+      setStpes(2);
+    } else {
+      router.push("/organizer/dashboard");
+    }
+  }
+
+  useEffect(() => {
+    checkRegister();
+  }, [])
+
   return (
     <div className="max-width flex justify-center flex-col items-center">
       <div className="w-[90%] md:w-[70%] lg:w-[40%] space-y-5">
@@ -47,7 +66,7 @@ const OrganizerRegister = () => {
               Setup Organizer Profile
             </h2>
             <hr />
-            <RegisterOrganizer />
+            <RegisterOrganizer setNextPage={setStpes}/>
           </>
         )}
 
@@ -55,9 +74,9 @@ const OrganizerRegister = () => {
           <>
             <Stepper activeIndex={3} totalCount={3} />
             <div className="bg-red-50 h-[400px] flex flex-col justify-center items-center gap-4 rounded-md">
-                <CongratulationSvg/>
-                <p className="text-xl font-medium">Congratualations !</p>
-                <p className="text-gray-600">Admin will review your details, Thank you !</p>
+              <CongratulationSvg />
+              <p className="text-xl font-medium">Congratualations !</p>
+              <p className="text-gray-600">Admin will review your details, Thank you !</p>
             </div>
           </>
         )}

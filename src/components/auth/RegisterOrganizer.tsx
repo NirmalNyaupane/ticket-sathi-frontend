@@ -1,37 +1,67 @@
 "use client";
 import organizerRegisterFormValidation from "@/lib/formvalidation/organizerRegister";
 import { cn } from "@/lib/utils";
+import { registerOrganizerApi } from "@/services/organizer.service";
+import { OrganizerRegisterFormData } from "@/types/auth/AuthType";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import CustomTextArea from "../common/CustomTextArea";
 import DragAndDropImage from "../common/DragAndDropImage";
 import { InputField } from "../common/InputField";
+import LoadingButton from "../common/LoadingButton";
 import SocialMedia from "../common/SocialMedia";
-import { Button } from "../ui/button";
 import { FormField } from "../ui/form";
 import { Label } from "../ui/label";
-
-type formData = z.infer<typeof organizerRegisterFormValidation>;
+import { useToast } from "../ui/use-toast";
+import { showError } from "@/utils/helper";
+import { AxiosError } from 'axios';
+import { Dispatch, SetStateAction } from "react";
 
 interface props {
   className?: string;
+  setNextPage:Dispatch<SetStateAction<number>>;
 }
-const RegisterOrganizer = ({ className }: props) => {
+
+const RegisterOrganizer = ({ className, setNextPage}: props) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
     control
-  } = useForm<formData>({
+  } = useForm<OrganizerRegisterFormData>({
     resolver: zodResolver(organizerRegisterFormValidation),
-    defaultValues:{
-      social_links:[{name:"", url:""}]
+    defaultValues: {
+      social_links: [{ name: "", url: "" }]
     }
   });
 
+  const { toast } = useToast();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: OrganizerRegisterFormData) => {
+      return registerOrganizerApi(data);
+    },
+    onSuccess: () => {
+      toast({
+        variant: "default",
+        className: "bg-green-600 text-white font-bold",
+        description: "Organizer registered sucessfully",
+        duration: 1000,
+      });
+      setNextPage(3);
+    },
+    onError(error: AxiosError<any, any>) {
+      toast({
+        variant: "default",
+        description: showError(error),
+        duration: 1000
+      })
+    },
+  })
+
   const formSubmit = handleSubmit((data) => {
-    console.log(data);
+    mutate(data);
   });
 
   return (
@@ -55,7 +85,7 @@ const RegisterOrganizer = ({ className }: props) => {
 
       <div className="space-y-1">
         <Label>Social Links</Label>
-        <SocialMedia control={control} error={errors.social_links}/>
+        <SocialMedia control={control} error={errors.social_links} />
       </div>
 
       <div className="space-y-1">
@@ -90,9 +120,9 @@ const RegisterOrganizer = ({ className }: props) => {
         {...register("website")}
         errorMessage={errors.website?.message}
       />
-      <Button type="submit" className="block w-full mt-5">
+      <LoadingButton type="submit" isLoading={isPending}>
         Submit
-      </Button>
+      </LoadingButton>
     </form>
   );
 };

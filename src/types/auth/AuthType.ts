@@ -5,6 +5,7 @@ import {
 } from "../generics/ApiGenericsType";
 import { z } from "zod";
 import { UserRoleEnum } from "@/constants/enum";
+import organizerRegisterFormValidation from "@/lib/formvalidation/organizerRegister";
 
 export interface UserResponse {
   id: string;
@@ -38,3 +39,8 @@ export interface LoginSucessResponse {
 }
 
 export type LoginFailure = ApiFailureError<[]>;
+
+
+/************** Register organizer ***************************/
+export type OrganizerRegisterFormData = z.infer<typeof organizerRegisterFormValidation>
+

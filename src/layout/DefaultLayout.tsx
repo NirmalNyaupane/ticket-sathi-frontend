@@ -1,5 +1,7 @@
 "use client";
-import { AUTH_COOKIE_NAME } from "@/constants";
+import { ORGANIZER_ROUTE_PATTERN } from "@/constants";
+import { AUTH_COOKIE_NAME } from "@/constants/config";
+import { UserRoleEnum } from "@/constants/enum";
 import { loginReducer } from "@/redux/slices/auth.slice";
 import { addUser } from '@/redux/slices/user.slice';
 import { RootState } from "@/redux/store";
@@ -7,14 +9,20 @@ import { getCurrentUserApi } from "@/services/user.service";
 import { getCookie } from "@/utils/cookie";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
   const [jwt, setJwt] = useState(getCookie(AUTH_COOKIE_NAME as string) ?? "");
   //selector
   const dispatch = useDispatch();
   const auth = useSelector((state: RootState) => state.auth!);
- 
+
+  const router = useRouter();
+  const pathName = usePathname();
+
+
   //react query for fetching data
   const { mutate } = useMutation({
     mutationFn: () => {
@@ -41,6 +49,17 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
       setJwt(jwt);
       axios.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
       mutate();
+
+      //cheking route
+      if (ORGANIZER_ROUTE_PATTERN.test(pathName)) {
+        if (auth.role === UserRoleEnum.ORGANIZER) {
+          if(auth.isRegisterOrganizer){
+            router.push("/organizer/dashboard")
+          }else{
+            router.push("/organizer/auth/register")
+          }
+        }
+      }
     } else {
       axios.defaults.headers.common["Authorization"] = null;
     }

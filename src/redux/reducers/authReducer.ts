@@ -2,7 +2,7 @@ import { LoginSucessResponse } from "@/types/auth/AuthType";
 import { Draft, PayloadAction } from "@reduxjs/toolkit";
 import { AuthState } from "../slices/auth.slice";
 import { deleteCookie, setCookie } from "@/utils/cookie";
-import { AUTH_COOKIE_NAME } from "@/constants";
+import { AUTH_COOKIE_NAME } from "@/constants/config";
 import { UserRoleEnum } from "@/constants/enum";
 
 const authLoginReducer = (
