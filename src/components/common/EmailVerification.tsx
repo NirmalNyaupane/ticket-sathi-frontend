@@ -4,7 +4,7 @@ import { otpValidation } from "@/lib/formvalidation/authvalidation";
 import { otpVerificationApi, resendOtpApi } from "@/services/auth.service";
 import { ApiFailureError } from "@/types/generics/ApiGenericsType";
 import CountDown from "@/utils/CountDown";
-import { showError } from "@/utils/healper";
+import { showError } from "@/utils/helper";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";

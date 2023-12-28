@@ -2,7 +2,7 @@ import {
   AuthRegisterErrorResponse,
   AuthRegisterResponse,
   UserRegisterPayload,
-  LoginSucess, 
+  LoginSucessResponse, 
   LoginFailure
 } from "@/types/auth/AuthType";
 import axios, { AxiosResponse } from "axios";
@@ -38,7 +38,7 @@ const newRegisteredEmailVerification = async (data: {
 };
 
 //login api
-const loginApi  =async (data:{email:string, password:string}):Promise<AxiosResponse<LoginSucess, LoginFailure>> => {
+const loginApi  =async (data:{email:string, password:string}):Promise<AxiosResponse<LoginSucessResponse, LoginFailure>> => {
     return await axios.post(`/auth/login`, data);
 }
 

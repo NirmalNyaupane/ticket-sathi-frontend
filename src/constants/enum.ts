@@ -1,7 +1,8 @@
 enum UserRoleEnum{
     ADMIN="ADMIN",
     ORGANIZER="ORGANIZER",
-    USER="USER"
+    USER="USER",
+    VISITORS="VISITORS"
 }
 
 enum EmailVerificationEnum{

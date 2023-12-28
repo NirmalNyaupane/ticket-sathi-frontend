@@ -4,4 +4,5 @@ const userNavItems = [
   { label: "Theater", url: "/theater" },
 ];
 
-export  {userNavItems};
+
+export { userNavItems };

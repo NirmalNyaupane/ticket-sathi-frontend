@@ -1,22 +1,25 @@
 "use client";
-import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
-import { FaGoogle } from "react-icons/fa";
-import { InputField, InputFieldWithRightIcon } from "../common/InputField";
-import { Button } from "../ui/button";
 import { EmailVerificationEnum, UserRoleEnum } from "@/constants/enum";
-import { Checkbox } from "../ui/checkbox";
 import { loginFormValidation } from "@/lib/formvalidation/authvalidation";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { loginReducer } from "@/redux/slices/auth.slice";
 import { loginApi } from "@/services/auth.service";
+import { showError } from "@/utils/helper";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import LoadingButton from "../common/LoadingButton";
-import { showError } from "@/utils/healper";
 import { AxiosError } from "axios";
-import { toast } from "../ui/use-toast";
+import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { FaGoogle } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { z } from "zod";
+import { InputField, InputFieldWithRightIcon } from "../common/InputField";
+import LoadingButton from "../common/LoadingButton";
+import { Button } from "../ui/button";
+import { Checkbox } from "../ui/checkbox";
+import { toast } from "../ui/use-toast";
+
 type formData = z.infer<typeof loginFormValidation>;
 
 const Login = ({ user }: { user: UserRoleEnum }) => {
@@ -28,13 +31,14 @@ const Login = ({ user }: { user: UserRoleEnum }) => {
   const router = useRouter();
 
   /************************ Methods *************************/
-
+  const dispatch = useDispatch();
   /******* React hook form for form handling *****************/
   const {
     register,
     formState: { errors },
     handleSubmit,
-    getValues
+    getValues,
+    reset
   } = useForm<formData>({
     resolver: zodResolver(loginFormValidation), //zod validaton
   });
@@ -45,7 +49,21 @@ const Login = ({ user }: { user: UserRoleEnum }) => {
       return loginApi(data);
     },
     onSuccess: (data) => {
-      console.log(data.data);
+      if (data.status === 200 || data.status === 201) {
+        const jwt = data.data.access_token;
+
+        if (!jwt) {
+          toast({
+            description: "Something went wrong",
+            duration: 1000,
+            variant: "destructive",
+          });
+
+          return null;
+        }
+        dispatch(loginReducer(data.data));
+        reset();
+      }
     },
     onError: (error: AxiosError<any, any>) => {
       toast({
@@ -104,7 +122,8 @@ const Login = ({ user }: { user: UserRoleEnum }) => {
           />
           <label
             htmlFor="terms"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed
+             peer-disabled:opacity-70"
           >
             Keep me logged in
           </label>

@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { userRegisterApi } from "@/services/auth.service";
 import { UserRegisterPayload } from "@/types/auth/AuthType";
 import { ApiFailureError } from "@/types/generics/ApiGenericsType";
-import { showError } from "@/utils/healper";
+import { showError } from "@/utils/helper";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
