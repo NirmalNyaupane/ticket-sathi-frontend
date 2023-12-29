@@ -1,22 +1,22 @@
 "use client";
 import Login from "@/components/auth/Login";
 import Register from "@/components/auth/Register";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { UserRoleEnum } from "@/constants/enum";
 import { cn } from "@/lib/utils";
+import { RootState } from "@/redux/store";
+import { firstCharacterOfFullName } from "@/utils/helper";
 import { Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { CSSProperties, use, useState } from "react";
-import GlobalDialog from "../Dialog/GlobalDialog";
+import { usePathname } from 'next/navigation';
+import { CSSProperties, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import GlobalDialog from "../Dialog/GlobalDialog";
 import GlobalDropDown from "../GlobalDropDownMenu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { usePathname } from 'next/navigation'
-import { firstCharacterOfFullName } from "@/utils/helper";
 type LinkItems = {
   label: string;
   url: string;

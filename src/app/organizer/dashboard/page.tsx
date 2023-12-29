@@ -1,8 +1,12 @@
-import React from 'react'
-
 const OrganizerDashboard = () => {
   return (
-    <div>OrganizerDashboard</div>
+    <div className="space-y-4 w-full">
+      {
+        Array(40).fill(0).map((_, index) => {
+          return <div key={(index+19)*38} className="border-2"> oijeoij </div>
+        })
+      }
+    </div>
   )
 }
 
