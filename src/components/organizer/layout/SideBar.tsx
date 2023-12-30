@@ -20,7 +20,7 @@ const SideBar = () => {
         {
             name: "Event Category",
             icon: <FolderInputIcon />,
-            links: ["/organizer/event-category"]
+            links: ["/organizer/dashboard/event-category"]
         },
 
         {
@@ -82,7 +82,7 @@ const NavItems = ({ link, name, icon }: NavItemsProps) => {
         <Link href={link?.[0]} className={cn(`flex items-center gap-3 px-2 rounded-md hover:bg-gray-200 
             py-2 mr-3 transition-all ${isActive() && "bg-gray-200"}`)}>
             <div>{icon}</div>
-            <div className='text-lg'>{name}</div>
+            <div className='text-md'>{name}</div>
         </Link>
     )
 }

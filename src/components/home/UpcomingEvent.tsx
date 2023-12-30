@@ -1,4 +1,4 @@
-import HomeCart from "../card/HomeCart";
+import HomeCart from "../card/HomeCard";
 import { Button } from "../ui/button";
 const data = [
   {
