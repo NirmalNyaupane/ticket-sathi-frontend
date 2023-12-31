@@ -3,9 +3,8 @@
 import { EventAboutUs } from "@/components/event/EventDescription";
 import EventDetails from "@/components/event/EventDetails";
 import EventSlider from "@/components/event/EventSlider";
-import { PageProps } from "../../../../.next/types/app/layout";
 
-const page = ({ params }: PageProps) => {
+const page = () => {
   return (
     <div className="flex flex-col my-5 max-width gap-10">
       <div className="flex items-center gap-5">
