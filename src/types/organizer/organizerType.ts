@@ -1,5 +1,4 @@
 import { ApiSucessResponse } from "../generics/ApiGenericsType"
-
 export interface OrganizerProfile {
     id: string
     userId: string

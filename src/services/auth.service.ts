@@ -1,9 +1,9 @@
 import {
   AuthRegisterErrorResponse,
   AuthRegisterResponse,
-  UserRegisterPayload,
-  LoginSucessResponse, 
-  LoginFailure
+  LoginFailure,
+  LoginSucessResponse,
+  UserRegisterPayload
 } from "@/types/auth/AuthType";
 import axios, { AxiosResponse } from "axios";
 
@@ -46,9 +46,5 @@ const loginApi  =async (data:{email:string, password:string}):Promise<AxiosRespo
 
 
 export {
-  otpVerificationApi,
-  userRegisterApi,
-  resendOtpApi,
-  newRegisteredEmailVerification,
-  loginApi
+  loginApi, newRegisteredEmailVerification, otpVerificationApi, resendOtpApi, userRegisterApi
 };

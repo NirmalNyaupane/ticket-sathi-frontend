@@ -11,8 +11,8 @@ const EventCategory = () => {
             <DashboardTopContent text={"Event Category"}
                 section3={<GlobalDialog dialogTitle='Add Event Category'
                     dialogButton={<Button>Add Category</Button>}
-                   ><CategoryModal /></GlobalDialog>
-            }/>
+                ><CategoryModal action="create" /></GlobalDialog>
+                } />
             <main className='grid' style={{
                 gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
                 gap: "2rem",

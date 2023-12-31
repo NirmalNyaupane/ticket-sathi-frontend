@@ -1,8 +1,12 @@
 import EmailVerification from "@/components/common/EmailVerification";
 import DefaultNavBar from "@/components/common/navbar/DefaultNavBar";
 import { userNavItems } from "@/constants/navbar/links";
-import { PageProps } from "../../../.next/types/app/layout";
-const EmailVerify = ({ searchParams }: PageProps) => {
+
+
+const EmailVerify = ({ searchParams }: {
+  params?: any
+  searchParams?: any
+}) => {
   const { email, action } = searchParams;
 
   //mutation
